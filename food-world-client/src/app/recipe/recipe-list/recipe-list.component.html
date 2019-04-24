@@ -1,3 +1,29 @@
-<p>
-  recipe-list works!
-</p>
+<div class="categories-title">
+    <h2>{{title}}</h2>
+</div>
+<button class="btn btn-primary my-2 my-sm-0 button" (click)="backClicked()">Back</button>
+<div class="create">
+    <button *ngIf="isAdmin" type="button" class="btn btn-warning" routerLink="/category/create">Add Category</button>
+    <button *ngIf="isAuthenticated" type="button" class="btn btn-warning" routerLink="/recipe/create">Add
+    Recipe</button>
+</div>
+<div class="panel-body" *ngIf="(recipes$ | async) != null; else notRecipes">
+    <div class="row">
+        <div class="col-lg-2" *ngFor="let recipe of (recipes$ | async)">
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <h4 class="card-title">{{recipe.title}}</h4>
+                <div class="card-body">
+                    <a routerLink="/recipe/details/{{recipe._id}}">
+                        <img style="height: 100px; width: 100%; display: block;" [src]="recipe.imageUrl" alt="Card image">
+                    </a>
+                    <small>by {{recipe.creator.firstName}} {{recipe.creator.lastName}}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #notRecipes>
+    <div class="categories-title">
+        <h4>No recipes yet. </h4>
+    </div>
+</ng-template>

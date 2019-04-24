@@ -16,14 +16,15 @@ function validateRecipeForm (payload) {
     errors.make = 'Title must be more than 5 symbols.'
   }
 
-  if (!payload || typeof payload.ingredients !== 'string' || payload.model.length < 3 || /\r|\n/.exec(payload.ingredients)) {
+  if (!payload || typeof payload.ingredients !== 'string' || payload.ingredients.length < 3) {
+    console.log(payload.ingredients)
     isFormValid = false
-    errors.model = 'Each ingredient must be in a new row!'
+    errors.ingredients = 'Each ingredient must be in a new row!'
   }
 
-  if (!payload || typeof payload.directions !== 'string' || payload.directions.length < 200) {
+  if (!payload || typeof payload.directions !== 'string' || payload.directions.length < 50) {
     isFormValid = false
-    errors.year = 'Directions at least 200 symbols.'
+    errors.directions = 'Directions at least 50 symbols.'
   }
 
   if (!payload || !payload.category) {
@@ -31,15 +32,15 @@ function validateRecipeForm (payload) {
     errors.category = 'Category is required!'
   }
 
-  if (payload || typeof payload.imageUrl !== 'string' ) {
+  if (!payload || typeof payload.imageUrl !== 'string' ||             payload.imageUrl.trim().length === 0) {
       isFormValid = false
-      errors.image = 'Image URL must be a string.'
-    }else if(payload || typeof payload.imageUrl === 'string'){
-        if (payload.imageUrl.startsWith('http') < 0) {
+      errors.image = 'Image URL is required.'
+    }else{
+        if (!payload.imageUrl.startsWith('http')) {
                 isFormValid = false
                 errors.image = 'Image URL must  starts with "http" or "https".'
               }
-              if (!(payload.imageUrl.endsWith('jpg') >= 0 || payload.imageUrl.endsWith('png') >= 0)) {
+              if (!(payload.imageUrl.endsWith('.jpg') || payload.imageUrl.endsWith('.png') )) {
                 isFormValid = false
                 errors.image = 'Image URL must  ends with "jpg" or "png".'
               }
@@ -58,9 +59,9 @@ function validateRecipeForm (payload) {
 }
 
 router.post('/create', authCheck, (req, res) => {
+  Recipe.collection.dropIndex({"recipe.likes":1});
   const recipe = req.body
   recipe.creator = req.user._id
-  recipe.likes=[]
 
   const validationResult = validateRecipeForm(recipe)
   if (!validationResult.success) {
@@ -70,21 +71,23 @@ router.post('/create', authCheck, (req, res) => {
       errors: validationResult.errors
     })
   }
-
   Recipe.create(recipe)
     .then(() => {
-      Category.update(
-        {_id: category.id},
-        {$pull:{recipes: recipe.id}}
-        )
-      .then(()=>{
         res.status(200).json({
         success: true,
         message: 'Recipe added successfully.',
         recipe
       })
+    }).catch(err =>{
+        if(err.code === 11000){
+          console.log(err);
+        return res.status(401).json({
+        success: false,
+        message: `Recipe "${recipe.title}" already exists. Please choose another one.`
+        })
+      }
+
       })
-    })
 })
 
 router.get('/all', authCheck ,(req, res) => {
@@ -92,6 +95,19 @@ router.get('/all', authCheck ,(req, res) => {
   const search = req.query.search
 
   Recipe.find()
+  .populate('creator')
+    .then(recipes => {
+      return res.status(200).json(recipes)
+    })
+})
+
+router.get('/:categoryName', authCheck ,(req, res) => {
+  const page = parseInt(req.query.page) || 1
+  const search = req.query.search
+  const categoryName = req.params.categoryName
+
+  Recipe.find({category: categoryName})
+  .populate('creator')
     .then(recipes => {
       return res.status(200).json(recipes)
     })
@@ -128,17 +144,18 @@ router.get('/details/:id', authCheck, (req, res) => {
 
 router.get('/user', authCheck, (req, res) => {
   const user = req.user._id
-
-  Recipe.find({creator: user})
+console.log(user)
+  Recipe.find({'creator': user})
     .then((recipes) => {
+      console.log(recipes)
       return res.status(200).json(recipes)
     })
 })
 
 router.get('/user/favorites', authCheck, (req, res) => {
-  const user = req.user._id
+  const userId = req.user._id
 
-  User.find(user)
+  User.findById(user)
   .populate('favorites')
     .then((user) => {
       return res.status(200).json(user.favorites)

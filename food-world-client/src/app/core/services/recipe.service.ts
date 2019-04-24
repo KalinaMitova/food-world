@@ -5,7 +5,6 @@ import { Recipe } from '../models/recipe';
 import { Observable } from 'rxjs';
 
 const BASE_URL = 'http://localhost:5000/recipe/';
-const CATEGORY_URL = 'http://localhost:5000/category/';
 const CREATE_END_URL = "create";
 const EDIT_END_URL = "edit/";
 const DETAILS_END_URL = "details/";
@@ -28,8 +27,8 @@ export class RecipeService {
     );
   }
 
-  getAllRecepiesByCategoryId( id: string ): Observable<Array<Recipe>> {
-    return this.http.get<Array<Recipe>>( CATEGORY_URL + id );
+  getAllRecepiesByCategoryName( name: string ): Observable<Array<Recipe>> {
+    return this.http.get<Array<Recipe>>( BASE_URL + name );
   }
 
   createRecipe( body: Recipe ) {

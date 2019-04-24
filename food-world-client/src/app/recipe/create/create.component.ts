@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 } )
 export class CreateComponent implements OnInit {
   @ViewChild( 'form' ) form: NgForm;
-  private categories: Observable<Array<Category>>;
+  private categories$: Observable<Array<Category>>;
   private createSubscr: Subscription;
 
   constructor (
@@ -25,11 +25,12 @@ export class CreateComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.categories = this.categoryService.getAll();
+    this.categories$ = this.categoryService.getAll();
   }
 
   createRecipe() {
-    this.recipeService
+
+    this.createSubscr = this.recipeService
       .createRecipe( this.form.value )
       .subscribe( data => {
         if ( this.form.valid ) {

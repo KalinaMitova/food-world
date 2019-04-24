@@ -45,6 +45,10 @@ export class AuthService {
     return localStorage.getItem( 'isAdmin' ) === "true";
   }
 
+  isAuthor( creatorId ) {
+    return this.userId === creatorId;
+  }
+
   saveUserInfo( res: Object ) {
     localStorage.setItem( 'username', res[ 'user' ][ 'username' ] );
     localStorage.setItem( 'token', res[ 'token' ] );

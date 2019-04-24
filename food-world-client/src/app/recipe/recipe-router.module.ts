@@ -8,6 +8,8 @@ import { SingleCategoryResolver } from '../core/resolvers/single-category.resolv
 import { AuthGuard } from '../core/guards/auth.guard';
 import { UserRecipeComponent } from './user-recipe/user-recipe.component';
 import { RecipeListComponent } from './recipe-list/recipe-list.component';
+import { FavoriteComponent } from './favorite/favorite.component';
+import { CategoryRecipesComponent } from './category-recipes/category-recipes.component';
 
 const childRoutes: Routes = [
   {
@@ -32,12 +34,12 @@ const childRoutes: Routes = [
   },
   {
     path: 'user/favorites',
-    component: UserRecipeComponent,
+    component: FavoriteComponent,
     canActivate: [ AuthGuard ]
   },
   {
-    path: 'category/:id',
-    component: RecipeListComponent,
+    path: ':categoryName',
+    component: CategoryRecipesComponent,
     canActivate: [ AuthGuard ]
   },
 ];

@@ -15,3 +15,7 @@ a.navbar-brand {
 #logout {
     cursor: pointer;
 }
+
+ul.navbar-nav {
+    margin: 10 0px;
+}

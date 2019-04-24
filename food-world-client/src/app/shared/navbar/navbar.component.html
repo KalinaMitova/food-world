@@ -2,27 +2,30 @@
     <a class="navbar-brand" routerLink="/">
         <img src="../assets/logo.png"> Food World
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+    <button appCollaps class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-    <div class="collapse navbar-collapse" id="navbarColor02">
+    <div appCollapse class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
 
             <li class="nav-item">
                 <a class="nav-link" routerLink="/">Home</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" routerLink="/recipe/all">Recipes</a>
+                <a class="nav-link" routerLink="/recipe/user">My Recipes</a>
             </li>
-
-            <li *ngIf="isAdmin" class="nav-item ">
+            <li class="nav-item ">
+                <a class="nav-link" routerLink="/recipe/user/favorite">Favorite Recipes</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <!-- <li *ngIf="isAdmin" class="nav-item ">
                 <a class="nav-link" routerLink="/category/create">Create Category</a>
             </li>
             <li *ngIf="isLoggedIn" class="nav-item ">
                 <a class="nav-link" routerLink="/recipe/create">Create Recipe</a>
-            </li>
-            <!-- <div class="right"> -->
+            </li> -->
             <ng-template [ngIf]="!isLoggedIn">
                 <li class="nav-item my-2 my-lg-0">
                     <a class="nav-link" routerLink="/user/login">Login</a>

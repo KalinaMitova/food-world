@@ -7,9 +7,9 @@ import { CategoryRoutingModule } from './category-routing.module';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
 import { AllComponent } from './all/all.component';
-import { ValidateImageUrlDirective } from '../core/directives/validate-image-url.directive';
 import { SingleCategoryResolver } from '../core/resolvers/single-category.resolver';
 import { SingleCategoryComponent } from './single-category/single-category.component';
+import { CoreModule } from '../core/core-module';
 
 
 @NgModule( {
@@ -17,11 +17,11 @@ import { SingleCategoryComponent } from './single-category/single-category.compo
     CreateComponent,
     EditComponent,
     AllComponent,
-    ValidateImageUrlDirective,
     SingleCategoryComponent ],
   imports: [
     CommonModule,
     FormsModule,
+    CoreModule,
     CategoryRoutingModule
   ],
   providers: [

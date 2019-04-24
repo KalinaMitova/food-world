@@ -15,9 +15,7 @@ const recipeSchema = new mongoose.Schema({
     required: true
   },
   category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',
-    required: true,
+    type: mongoose.Schema.Types.String,
   },
   imageUrl: {
     type: mongoose.Schema.Types.String,

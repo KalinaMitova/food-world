@@ -26,7 +26,6 @@ export class EditComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.category = this.route.snapshot.data[ 'category' ];
-    console.log( this.category );
   }
   editCategory() {
     this.editSubscr = this.categoryService

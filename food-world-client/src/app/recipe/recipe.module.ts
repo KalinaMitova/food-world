@@ -9,6 +9,8 @@ import { DetailsComponent } from './details/details.component';
 import { FormsModule } from '@angular/forms';
 import { RecipeRoutingModule } from './recipe-router.module';
 import { SingleRecipeResolver } from '../core/resolvers/single-recipe.resolver';
+import { CoreModule } from '../core/core-module';
+import { CategoryRecipesComponent } from './category-recipes/category-recipes.component';
 
 @NgModule( {
   declarations: [
@@ -17,10 +19,13 @@ import { SingleRecipeResolver } from '../core/resolvers/single-recipe.resolver';
     RecipeListComponent,
     UserRecipeComponent,
     FavoriteComponent,
-    DetailsComponent ],
+    DetailsComponent,
+    CategoryRecipesComponent
+  ],
   imports: [
     CommonModule,
     FormsModule,
+    CoreModule,
     RecipeRoutingModule
   ],
   providers: [
