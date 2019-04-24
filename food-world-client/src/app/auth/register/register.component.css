@@ -1,0 +1,31 @@
+.my-form {
+    position: center
+}
+
+.container {
+    padding: 80px 0;
+    z-index: 0;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.button {
+    width: 150px;
+    text-align: center;
+    margin: -50px -50px;
+    position: relative;
+    top: 50%;
+    left: 43%;
+}
+
+input.ng-valid {
+    border-left: 5px solid #42A948;
+    /* green */
+}
+
+input.ng-invalid.ng-touched {
+    border-left: 5px solid #A94442;
+    /* red */
+}

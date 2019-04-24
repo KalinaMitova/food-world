@@ -1,0 +1,17 @@
+li {
+    border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+    background-color: rgb(168, 150, 185);
+}
+
+li.active {
+    border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+    background-color: rgb(187, 80, 197);
+}
+
+li.nav-item.right {
+    float: right;
+}
+
+a.navbar-brand {
+    color: white;
+}

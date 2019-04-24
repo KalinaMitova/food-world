@@ -16,7 +16,7 @@ module.exports = new PassportLocalStrategy({
 
   User.findOne({username: user.username}).then((savedUser) => {
     if (!savedUser) {
-      const error = new Error('Incorrect username or password')
+      const error = new Error('Incorrect username or password!')
       error.username = 'IncorrectCredentialsError'
 
       return done(error)
@@ -25,7 +25,7 @@ module.exports = new PassportLocalStrategy({
     const isMatch = savedUser.hashedPass === encryption.generateHashedPassword(savedUser.salt, password);
 
     if (!isMatch) {
-      const error = new Error('Incorrect username or password')
+      const error = new Error('Incorrect username or password!')
       error.username = 'IncorrectCredentialsError'
 
       return done(error)
@@ -38,8 +38,10 @@ module.exports = new PassportLocalStrategy({
     // create a token string
     const token = jwt.sign(payload, 's0m3 r4nd0m str1ng');
     const isAdmin = savedUser.roles.indexOf('Admin') != -1;
+    const id = savedUser.id;
     const data = {
       username: savedUser.username,
+      userId: id,
       isAdmin
     }
 

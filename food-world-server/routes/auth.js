@@ -9,9 +9,19 @@ function validateSignupForm (payload) {
   let isFormValid = true
   let message = ''
 
-  if (!payload || typeof payload.username !== 'string' || payload.username.trim() .length< 4) {
+  if (!payload || typeof payload.username !== 'string' || payload.username.trim().length < 3 || payload.username.trim().length > 15) {
     isFormValid = false
-    errors.username = 'Username must have at least 4 characters.'
+    errors.username = 'Username must be between 3 and 15 characters.'
+  }
+
+   if (!payload || typeof payload.firstName !== 'string' ||  payload.firstName.trim().length < 3 ) {
+    isFormValid = false
+    errors.firstName = 'First name should starts with capital letter and must be at least 3 characters!'
+  }
+
+   if (!payload || typeof payload.lastName !== 'string' ||  payload.lastName.trim().length < 3 ) {
+    isFormValid = false
+    errors.firstName = 'Last name should starts with capital letter and must be at least 3 characters!'
   }
 
   if (!payload || typeof payload.password !== 'string' || payload.password.trim().length < 6) {
@@ -35,9 +45,9 @@ function validateLoginForm (payload) {
   let isFormValid = true
   let message = ''
 
- if (!payload || typeof payload.username !== 'string' || payload.username.trim().length < 4) {
+ if (!payload || typeof payload.username !== 'string' || payload.username.trim().length < 3 || payload.username.trim().length > 15) {
     isFormValid = false
-    errors.username = 'Username must have at least 4 characters.'
+    errors.username = 'Username must be between 3 and 15 characters.'
   }
 
   if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
@@ -94,6 +104,7 @@ router.post('/register', (req, res, next) => {
 
     passport.authenticate('local-signup', (err) => {
     if (err) {
+      console.log(err);
       if(err.username === 'DuplicateUsername'){
         return res.status(401).json({
         success: false,

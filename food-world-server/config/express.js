@@ -13,9 +13,12 @@ module.exports = app => {
   }))
   app.use(bodyParser.json())
   app.use(passport.initialize())
-  app.use(cors({
-    origin: 'http://localhost:4200'
-  }))
+  app.use(cors(
+    {
+    origin: 'http://localhost:4200',
+    methods: "GET,PUT,PATCH,POST,DELETE",
+  }
+  ))
 
   passport.use('local-signup', localSignupStrategy)
   passport.use('local-login', localLoginStrategy)

@@ -1,3 +1,15 @@
-li {
-    border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 55px 25px 55px 25px/25px 55px 25px 55px;
+    background-color: rgb(29, 29, 29);
+    color: white;
 }

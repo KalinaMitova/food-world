@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4 middle">
+            <h1 id="forms">Register</h1>
+            <form class="my-form" #form="ngForm" (ngSubmit)="register()">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="username">Username</label>
+                    <input class="form-control form-control-lg" type="text" placeholder="username" id="username" name="username" #username="ngModel" ngModel pattern="[A-Za-z0-9]{3,15}" required>
+                </div>
+
+                <div class="alert alert-danger" *ngIf="username.invalid && username.touched">
+                    <div *ngIf="username.errors.required">
+                        Username is required!
+                    </div>
+                    <div *ngIf="username.errors.pattern">
+                        Username should contains only letters and digits and must be between 3 and 15 symbols long!
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="username">First name</label>
+                    <input class="form-control form-control-lg" type="text" placeholder="First Name" id="firstName" name="firstName" #firstName="ngModel" ngModel pattern="[A-Z][a-z]+" required>
+                </div>
+                <div class="alert alert-danger" *ngIf="firstName.invalid && firstName.touched">
+                    <div *ngIf="firstName.errors.required">
+                        First name is required!
+                    </div>
+                    <div *ngIf="firstName.errors.pattern">
+                        First name should starts with capital letter!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="username">Last Name</label>
+                    <input class="form-control form-control-lg" type="text" placeholder="Last Name" id="lastName" name="lastName" #lastName="ngModel" ngModel pattern="[A-Z][a-z]+" required>
+                </div>
+                <div class="alert alert-danger" *ngIf="lastName.invalid && lastName.touched">
+                    <div *ngIf="lastName.errors.required">
+                        Last name is required!
+                    </div>
+                    <div *ngIf="lastName.errors.pattern">
+                        Last name should starts with capital letter!
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="password">Password</label>
+                    <input class="form-control form-control-lg" type="password" placeholder="password" id="password" name="password" #password="ngModel" ngModel pattern="^[a-zA-Z\d]{5,16}$" required>
+                </div>
+                <div class="alert alert-danger" *ngIf="password.invalid && password.touched">
+                    <div *ngIf="password.errors.required">
+                        Password is required!
+                    </div>
+                    <div *ngIf="password.errors.pattern">
+                        Password must be between 5 and 16 symbols and must contains only letters and digits.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="cnfirmPassword">Confirm Password</label>
+                    <input class="form-control form-control-lg" type="password" placeholder="confirm password" id="confirmPassword" name="confirmPassword" #confirmPassword="ngModel" ngModel required>
+                </div>
+                <div class="alert alert-danger" *ngIf="(confirmPassword.invalid && confirmPassword.touched &&confirmPassword.errors.required)">
+                    Please repeate password!
+                </div>
+                <div class="alert alert-danger" *ngIf="confirmPassword.valid && password.value !== confirmPassword.value">
+                    Passwords do not match.
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-secondary my-2 my-sm-0 button" type="submit" [disabled]="form.invalid">Register</button>
+                </div>
+                <p class="text-center">Have an account? <a class="login-footer" routerLink="/user/login">Log in</a> </p>
+            </form>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4 middle">
+            <h1 id="forms">Log in</h1>
+            <form class="my-form" #form="ngForm" (ngSubmit)="login()">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="username">Username</label>
+                    <input class="form-control form-control-lg" type="text" placeholder="username" id="username" name="username" #username="ngModel" ngModel pattern="[A-Za-z0-9]{3,15}" required>
+                </div>
+                <div class="alert alert-danger" *ngIf="username.invalid && username.touched">
+                    <div *ngIf="username.errors.required">
+                        Username is required!
+                    </div>
+                    <div *ngIf="username.errors.pattern">
+                        Username should contains only letters and digits and must be between 3 and 15 symbols long!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="password">Password</label>
+                    <input class="form-control form-control-lg" type="password" placeholder="password" id="password" name="password" #password="ngModel" ngModel pattern="^[a-zA-Z\d]{5,16}$" required>
+                </div>
+                <div class="alert alert-danger" *ngIf="password.invalid && password.touched">
+                    <div *ngIf="password.errors.required">
+                        Password is required!
+                    </div>
+                    <div *ngIf="password.errors.pattern">
+                        Password must be between 5 and 16 symbols and must contains only letters and digits.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-secondary my-2 my-sm-0 button" type="submit" [disabled]="form.invalid">Log In</button>
+                </div>
+                <p class="text-center">Don’t have an account? <a class="login-footer" routerLink="/user/register">Register</a>
+                </p>
+            </form>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>

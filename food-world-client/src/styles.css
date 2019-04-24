@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '~ngx-toastr/toastr.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+html,
+body {
+    background-color: rgb(168, 150, 185);
+    letter-spacing: 1px;
+}
+
+#toast-container {
+    border-radius: 55px 25px 55px 25px/25px 55px 25px 55px;
+}
