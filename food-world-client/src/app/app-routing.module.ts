@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'category',
     loadChildren: './category/category.module#CategoryModule',
   },
+  {
+    path: 'recipe',
+    loadChildren: './recipe/recipe.module#RecipeModule',
+  },
   { path: '**', component: PageNotFoundComponent }
 
 ];

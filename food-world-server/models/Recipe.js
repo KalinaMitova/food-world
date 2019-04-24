@@ -21,6 +21,7 @@ const recipeSchema = new mongoose.Schema({
   },
   imageUrl: {
     type: mongoose.Schema.Types.String,
+    required: true,
   },
   creator: {
     type: mongoose.Schema.Types.ObjectId,

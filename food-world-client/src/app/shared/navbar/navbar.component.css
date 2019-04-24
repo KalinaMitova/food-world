@@ -8,10 +8,6 @@ li.active {
     background-color: rgb(187, 80, 197);
 }
 
-.right {
-    float: right;
-}
-
 a.navbar-brand {
     color: white;
 }

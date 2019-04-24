@@ -1,52 +1,61 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { PostInfo } from '../models/post-info';
+import { Recipe } from '../models/recipe';
 import { Observable } from 'rxjs';
 
-@Injectable()
-export class PostService {
-  private readonly BASE_URL = ``;
-  private readonly ALL_POSTS = `${this.BASE_URL}/posts?query={}&sort={"_kmd.ect": -1}`;
-  private readonly CREATE_POST = `${this.BASE_URL}/posts`;
+const BASE_URL = 'http://localhost:5000/recipe/';
+const CATEGORY_URL = 'http://localhost:5000/category/';
+const CREATE_END_URL = "create";
+const EDIT_END_URL = "edit/";
+const DETAILS_END_URL = "details/";
+const DELETE_END_URL = "delete/";
+const ALL_END_URL = "all";
+const USER_RECIPES_END_URL = "user";
+const USER_FAVORITES_RECIPES_END_URL = "user/favorites";
+
+@Injectable( {
+  providedIn: 'root'
+} )
+export class RecipeService {
 
   constructor (
     private http: HttpClient
   ) { }
 
-  getAll(): Observable<Array<PostInfo>> {
-    return this.http.get<PostInfo[]>( this.ALL_POSTS,
+  getAll(): Observable<Array<Recipe>> {
+    return this.http.get<Array<Recipe>>( BASE_URL + ALL_END_URL,
     );
   }
 
-  createPost( body: Object ) {
-    return this.http.post( this.CREATE_POST, body,
+  getAllRecepiesByCategoryId( id: string ): Observable<Array<Recipe>> {
+    return this.http.get<Array<Recipe>>( CATEGORY_URL + id );
+  }
+
+  createRecipe( body: Recipe ) {
+    return this.http.post( BASE_URL + CREATE_END_URL, body );
+  }
+
+  getDetails( id: string ): Observable<Recipe> {
+    return this.http.get<Recipe>( BASE_URL + DETAILS_END_URL + `/${id}` );
+  }
+
+  editRecipe( body: Recipe, id: string ) {
+    return this.http.put( BASE_URL + EDIT_END_URL + `/${id}`, body );
+  }
+
+  deleteRecipe( id: string ) {
+    return this.http.delete( BASE_URL + DELETE_END_URL + `/${id}`,
     );
   }
 
-  getById( id: string ): Observable<PostInfo> {
-    return this.http.get<PostInfo>( this.CREATE_POST + `/${id}`,
-    );
-  }
-
-  getDetails( id: string ): Observable<PostInfo> {
-    return this.http.get<PostInfo>( this.CREATE_POST + `/${id}`,
-    );
-  }
-
-  editPost( body: Object, id: string ) {
-    return this.http.put( this.CREATE_POST + `/${id}`, body,
-    );
-  }
-
-  deletePost( id: string ) {
-    return this.http.delete( this.CREATE_POST + `/${id}`,
-    );
-  }
-
-  getUserPosts(): Observable<PostInfo[]> {
+  getUserRecipes(): Observable<Recipe[]> {
     return this.http
-      .get<PostInfo[]>( `${this.BASE_URL}/posts?query={"author":"${localStorage.getItem( 'username' )}"}&sort={"_kmd.ect": -1}`,
-      );
+      .get<Recipe[]>( BASE_URL + USER_RECIPES_END_URL );
+  }
+
+  getUserFavoritesRecipes(): Observable<Recipe[]> {
+    return this.http
+      .get<Recipe[]>( BASE_URL + USER_FAVORITES_RECIPES_END_URL );
   }
 }

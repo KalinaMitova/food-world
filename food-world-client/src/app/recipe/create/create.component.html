@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4 middle">
+            <h1 id="forms">Create Recipe</h1>
+            <form class="my-form" #form="ngForm" (ngSubmit)="createRecipe()">
+                {{form.value|json}}
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="username">Recipe title</label>
+                    <input class="form-control form-control-lg" type="text" placeholder="title" id="title" name="title" #title="ngModel" ngModel minlength="5" required>
+                </div>
+                <div class="alert alert-danger" *ngIf="title.invalid && title.touched">
+                    <div *ngIf="title.errors.required">
+                        Recipe title is required!
+                    </div>
+                    <div *ngIf="title.errors.minlength">
+                        Recipe title should be at least {{title.errors.minlength.requiredLength}} characters!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <select class="form-control form-control-lg" name="category" #category="ngModel" ngModel required>
+            <option disabled selected>Select Category</option>
+            <option *ngFor="let category of categories | async" [value]="category._id">{{category.name}}</option>
+          </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="ingredients">Ingredients:</label>
+                    <div id="ingredientsHelp" class="form-text text-primary">Ingridients should be one per line.
+                        <p>For example: </p>
+                        <p>For the roast chicken:</p>
+                        <p>2 carrots</p>
+                        <p>1 chicken</p>
+                    </div>
+                    <textarea class=" form-control form-control-lg" id="ingredients" rows="5" spellcheck="true" placeholder="Ingredients:" name="ingredients" #ingredients="ngModel" ngModel minlength="20" required></textarea>
+                </div>
+                <div class="alert alert-danger" *ngIf="ingredients.invalid && ingredients.touched">
+                    <div *ngIf="ingredients.errors.required">
+                        Ingredients are required!
+                    </div>
+                    <div *ngIf="ingredients.errors.minlength">
+                        Ingredients should be at least {{ingredients.errors.minlength.requiredLength}} characters!
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="directions">Directions:</label>
+                    <textarea class="form-control form-control-lg" id="directions" rows="5" spellcheck="true" placeholder="Directions:" name="directions" #directions="ngModel" ngModel minlength="50" required>Directions:</textarea>
+                </div>
+                <div class="alert alert-danger" *ngIf="directions.invalid && directions.touched">
+                    <div *ngIf="directions.errors.required">
+                        Directions are required!
+                    </div>
+                    <div *ngIf="directions.errors.minlength">
+                        Directions should be at least {{directions.errors.minlength.requiredLength}} characters!
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="imageUrl">Image</label>
+                    <input class="form-control form-control-lg" type="text" placeholder="image url" id="imageUrl" name="imageUrl" #imageUrl="ngModel" ngModel appValidateImageUrl required>
+                    <div class="row image-box">
+                        <div class="col-xs-12" *ngIf="imageUrl.value && !imageUrl.invalid">
+                            <img [src]="imageUrl.value" class="img-responsive">
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="imageUrl.invalid &&imageUrl.touched">
+
+                    <div *ngIf="imageUrl.errors.required">
+                        Image url is required!
+                    </div>
+                    <div *ngIf="!imageUrl.errors.required && imageUrl.errors.imageUrl">
+                        Image url must starts with http and ends with jpg/png.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary my-2 my-sm-0 button" (click)="backClicked()">Back</button>
+                    <button class="btn btn-secondary my-2 my-sm-0 button" type="submit" [disabled]="form.invalid">Add
+            Recipe</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>

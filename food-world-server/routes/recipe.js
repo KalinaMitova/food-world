@@ -2,6 +2,7 @@ const express = require('express')
 const authCheck = require('../middleware/auth-check');
 const Recipe = require('../models/Recipe');
 const Category = require('../models/Category');
+const User = require('../models/User');
 
 const router = new express.Router()
 
@@ -12,7 +13,7 @@ function validateRecipeForm (payload) {
 
   if (!payload || typeof payload.title !== 'string' || payload.title.length < 3) {
     isFormValid = false
-    errors.make = 'Title must be more than 3 symbols.'
+    errors.make = 'Title must be more than 5 symbols.'
   }
 
   if (!payload || typeof payload.ingredients !== 'string' || payload.model.length < 3 || /\r|\n/.exec(payload.ingredients)) {
@@ -131,6 +132,16 @@ router.get('/user', authCheck, (req, res) => {
   Recipe.find({creator: user})
     .then((recipes) => {
       return res.status(200).json(recipes)
+    })
+})
+
+router.get('/user/favorites', authCheck, (req, res) => {
+  const user = req.user._id
+
+  User.find(user)
+  .populate('favorites')
+    .then((user) => {
+      return res.status(200).json(user.favorites)
     })
 })
 

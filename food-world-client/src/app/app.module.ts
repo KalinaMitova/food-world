@@ -16,11 +16,13 @@ import { JwtInterceptor } from './core/interceptors/jwt-interceptor';
 import { ResponceHandlerInterceptor } from './core/interceptors/responce-handler-interceptor';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { RouterModule } from '@angular/router';
+import { ValidateImageUrlDirective } from './core/directives/validate-image-url.directive';
 
 
 
 @NgModule( {
   declarations: [
+    ValidateImageUrlDirective,
     AppComponent,
     PageNotFoundComponent,
 

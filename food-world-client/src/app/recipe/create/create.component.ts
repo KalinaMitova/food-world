@@ -1,32 +1,36 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common';
+import { Category } from 'src/app/core/models/category/category';
 import { CategoryService } from 'src/app/core/services/category.service';
+import { Observable, Subscription } from 'rxjs';
+import { RecipeService } from 'src/app/core/services/recipe.service';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 
 @Component( {
   selector: 'app-create',
   templateUrl: './create.component.html',
   styleUrls: [ './create.component.css' ]
 } )
-export class CreateComponent implements OnInit, OnDestroy {
-
+export class CreateComponent implements OnInit {
   @ViewChild( 'form' ) form: NgForm;
+  private categories: Observable<Array<Category>>;
   private createSubscr: Subscription;
 
   constructor (
     private categoryService: CategoryService,
-    private router: Router,
-    private location: Location
+    private recipeService: RecipeService,
+    private location: Location,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    this.categories = this.categoryService.getAll();
   }
 
-  createCategory() {
-    this.createSubscr = this.categoryService
-      .createCategory( this.form.value )
+  createRecipe() {
+    this.recipeService
+      .createRecipe( this.form.value )
       .subscribe( data => {
         if ( this.form.valid ) {
           this.form.reset();
@@ -34,7 +38,6 @@ export class CreateComponent implements OnInit, OnDestroy {
         }
       } )
   }
-
   backClicked() {
     this.location.back();
   }
@@ -44,5 +47,4 @@ export class CreateComponent implements OnInit, OnDestroy {
       this.createSubscr.unsubscribe();
     }
   }
-
 }

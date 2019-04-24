@@ -1,0 +1,64 @@
+.my-form {
+    position: center
+}
+
+.container {
+    padding: 40px 0;
+    z-index: 0;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.button.btn-secondary {
+    width: 130px;
+    text-align: center;
+    margin-right: 50px;
+    margin: -50px -50px;
+    position: relative;
+    top: 50%;
+    left: 30%;
+}
+
+.button.btn-primary {
+    width: 130px;
+    text-align: center;
+    /* margin: -50px -50px; */
+    position: relative;
+    top: 50%;
+    /* left: 30%; */
+}
+
+input.ng-valid {
+    /* border: 5px solid #42A948; */
+    border-left: 5px solid #42A948;
+    /* green */
+}
+
+input.ng-invalid.ng-touched {
+    /* border: 5px solid #A94442; */
+    border-left: 5px solid #A94442;
+    /* red */
+}
+
+.img-responsive {
+    height: 190px;
+    width: 95%;
+    display: block;
+    border-radius: 255px 25px 225px 25px/25px 225px 25px 255px;
+    border: 5px solid black;
+}
+
+select {
+    border-radius: 50px 25px 50px 25px/25px 50px 25px 50px;
+}
+
+.image-box {
+    margin-top: 30px;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+}

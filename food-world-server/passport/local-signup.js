@@ -19,6 +19,7 @@ module.exports = new PassportLocalStrategy({
   user.salt = encryption.generateSalt();
   user.hashedPass = encryption.generateHashedPassword(user.salt, password);
   user.roles = ['User'];
+  user.favorites = [];
   User.create(user)
   .then(() => {
     return done(null);
