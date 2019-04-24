@@ -16,7 +16,7 @@ export class ResponceHandlerInterceptor implements HttpInterceptor {
           console.log( evt );
           if ( evt.status === 201 ) {
             this.toastr.success( evt.statusText, 'Success:', { positionClass: 'toast-top-center' } );
-          } else if ( evt.status === 200 ) {
+          } else if ( evt.status === 200 && evt.body.message ) {
             this.toastr.success( evt.body.message, 'Success:' );
           }
         }

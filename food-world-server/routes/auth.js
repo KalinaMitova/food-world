@@ -104,7 +104,6 @@ router.post('/register', (req, res, next) => {
 
     passport.authenticate('local-signup', (err) => {
     if (err) {
-      console.log(err);
       if(err.username === 'DuplicateUsername'){
         return res.status(401).json({
         success: false,

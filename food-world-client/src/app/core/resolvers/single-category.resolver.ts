@@ -6,16 +6,16 @@ import {
 } from '@angular/router';
 import { first } from 'rxjs/operators';
 
-import { PostService } from '../services/recipe.service';
-import { PostInfo } from '../models/post-info';
+import { CategoryService } from '../services/category.service';
+import { Category } from '../models/category/category';
 
 @Injectable()
-export class SinglePostResolver implements Resolve<PostInfo>{
+export class SingleCategoryResolver implements Resolve<Category>{
 
-  constructor ( private postService: PostService ) { }
+  constructor ( private categoryService: CategoryService ) { }
   resolve( route: ActivatedRouteSnapshot, state: RouterStateSnapshot ) {
     const id = route.params[ 'id' ];
-    return this.postService.getDetails( id ).pipe( first() );
+    return this.categoryService.getById( id ).pipe( first() );
   }
 
 }

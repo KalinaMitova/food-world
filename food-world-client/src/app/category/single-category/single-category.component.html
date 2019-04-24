@@ -1,0 +1,12 @@
+<div class="card border-primary mb-3" style="max-width: 20rem;">
+    <h4 class="card-title">{{category.name}}</h4>
+    <div class="card-body">
+        <a routerLink="/category/{{category._id}}">
+            <img style="height: 100px; width: 100%; display: block;" [src]="category.imageUrl" alt="Card image">
+        </a>
+        <div class="card-body" *ngIf="category.recipes.length === 0 && isAdmin">
+            <button type="button" class="btn btn-danger" (click)="deleteCategoryEmit(category._id)">Delete</button>
+            <button type="button" class="btn btn-info" routerLink="/category/edit/{{category._id}}">Edit</button>
+        </div>
+    </div>
+</div>

@@ -20,11 +20,11 @@ function validateCategoryForm (payload) {
       isFormValid = false
       errors.image = 'Image URL is required.'
     }else{
-        if (payload.imageUrl.startsWith('http') < 0) {
+        if (!payload.imageUrl.startsWith('http')) {
                 isFormValid = false
                 errors.image = 'Image URL must  starts with "http" or "https".'
               }
-              if (!(payload.imageUrl.endsWith('jpg') >= 0 || payload.imageUrl.endsWith('png') >= 0)) {
+              if (!(payload.imageUrl.endsWith('.jpg') || payload.imageUrl.endsWith('.png') )) {
                 isFormValid = false
                 errors.image = 'Image URL must  ends with "jpg" or "png".'
               }
@@ -66,13 +66,25 @@ router.post('/create', authCheck, adminCheck, (req, res) => {
         message: `Category "${category.name}" added successfully.`,
         category: category
       })
+    }).catch(err=>{
+      if(err.code === 11000){
+        return res.status(401).json({
+        success: false,
+        message: `Category "${category.name}" already exists. Please choose another one.`
+        })
+      }
+
+      return res.status(401).json({
+        success: false,
+        message: err
+      })
     })
 })
 
 router.get('/:id', authCheck, (req, res) => {
   const id = req.params.id
   console.log(id)
-  Category.findById(id)
+  Category.findById(id).populate('recipes')
     .then((category) => {
       if (!category) {
         return res.status(404).json({
@@ -151,7 +163,7 @@ router.delete('/delete/:id', authCheck, adminCheck, (req, res) => {
           ).then(() =>{
              return res.status(200).json({
             success: true,
-            message: 'Category deleted successfully!'
+            message: `Category "${category.name}" deleted successfully!`
             })
           })
         })

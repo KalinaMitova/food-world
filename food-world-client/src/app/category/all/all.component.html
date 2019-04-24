@@ -1,3 +1,31 @@
-<p>
-  all works!
-</p>
+<div class="categories-title">
+    <h2>Can’t quite figure out what you want to eat? </h2>
+    <h2>Let Food World inspire you to the fullest with our recipes!</h2>
+</div>
+<div class="create" *ngIf="isAdmin">
+    <button type="button" class="btn btn-warning" routerLink="/category/create">Add Category</button>
+</div>
+<div class="panel-body" *ngIf="categories; else notCategories">
+    <div class="row">
+        <div class="col-lg-2" *ngFor="let category of (categories | async)">
+            <app-single-category [category]="category" [isAdmin]="isAdmin" (deleteEmiter)=deleteCategory($event)>
+            </app-single-category>
+            <!-- <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <h4 class="card-title">{{category.name}}</h4>
+                <div class="card-body">
+                    <a routerLink="/category/{{category._id}}">
+                        <img style="height: 100px; width: 100%; display: block;" [src]="category.imageUrl" alt="Card image">
+                    </a>
+                    <div class="card-body" *ngIf="category.recipes.length === 0 && isAdmin">
+                        <button type="button" class="btn btn-danger" (click)="deleteCategory(category._id)">Delete</button>
+                        <button type="button" class="btn btn-info" routerLink="/category/edit/{{category._id}}">Edit</button>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</div>
+<ng-template #notCategories>
+    <h2>No categories yet. Do you want to create one?</h2>
+    <button type="button" class="btn btn-primary">Create Category</button>
+</ng-template>

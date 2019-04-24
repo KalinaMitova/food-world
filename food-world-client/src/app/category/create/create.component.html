@@ -1,3 +1,48 @@
-<p>
-  create works!
-</p>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4 middle">
+            <h1 id="forms">Create Category</h1>
+            <form class="my-form" #form="ngForm" (ngSubmit)="createCategory()">
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="username">Category Name</label>
+                    <input class="form-control form-control-lg" type="text" placeholder="category name" id="category" name="name" #name="ngModel" ngModel minlength="3" required>
+                </div>
+                <div class="alert alert-danger" *ngIf="name.invalid && name.touched">
+                    <div *ngIf="name.errors.required">
+                        Category name is required!
+                    </div>
+                    <div *ngIf="name.errors.minlength">
+                        Category name should be at least {{category.errors.minlength.requiredLength}} characters!
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-form-label col-form-label-lg" for="imageUrl">Image</label>
+                    <input class="form-control form-control-lg" type="text" placeholder="image url" id="imageUrl" name="imageUrl" #imageUrl="ngModel" ngModel appValidateImageUrl required>
+                    <div class="row image-box">
+                        <div class="col-xs-12" *ngIf="imageUrl.value && !imageUrl.invalid">
+                            <img [src]="imageUrl.value" class="img-responsive">
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-danger" *ngIf="imageUrl.invalid &&imageUrl.touched">
+
+                    <div *ngIf="imageUrl.errors.required">
+                        Image url is required!
+                    </div>
+                    <div *ngIf="!imageUrl.errors.required && imageUrl.errors.imageUrl">
+                        Image url must starts with http and ends with jpg/png.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-primary my-2 my-sm-0 button" (click)="backClicked()">Back</button>
+                    <button class="btn btn-secondary my-2 my-sm-0 button" type="submit" [disabled]="form.invalid">Add
+            Category</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-4"></div>
+    </div>
+</div>
