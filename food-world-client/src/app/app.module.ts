@@ -14,12 +14,14 @@ import { AppComponent } from './app.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtInterceptor } from './core/interceptors/jwt-interceptor';
 import { ResponceHandlerInterceptor } from './core/interceptors/responce-handler-interceptor';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 
 @NgModule( {
   declarations: [
     AppComponent,
+    PageNotFoundComponent,
 
   ],
   imports: [
