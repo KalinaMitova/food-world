@@ -131,7 +131,6 @@ router.get('/details/:id', authCheck, (req, res) => {
         directions: recipe.directions,
         category: recipe.category,
         creator: recipe.creator,
-        likes: recipe.likes.count(),
       }
 
       if (recipe.imageUrl) {
@@ -235,34 +234,6 @@ router.put('/edit/:id', authCheck, (req, res) => {
   })
 })
 
-// router.get('/:id', authCheck, (req, res) => {
-//   const id = req.params.id
-
-//   Recipe.findById(id)
-//     .then(recipe => {
-//       if (!recipe) {
-//         return res.status(404).json({
-//           success: false,
-//           message: 'Entry does not exists!'
-//         })
-//       }
-
-//       let response = {
-//         id,
-//         make: recipe.make,
-//         model: recipe.model,
-//         year: recipe.year,
-//         description: recipe.description,
-//         price: recipe.price,
-//         image: recipe.image
-//       }
-
-//       if (recipe.material) {
-//         response.material = recipe.material
-//       }
-
-//       res.status(200).json(response)
-//     })
 
     router.post('/like/:id', authCheck, (req, res) => {
   const id = req.params.id
