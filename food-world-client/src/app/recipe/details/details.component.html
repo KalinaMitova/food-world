@@ -1,3 +1,25 @@
-<p>
-  details works!
-</p>
+<div class="card  details-card">
+    <h3 class="card-header">{{recipe.category}}</h3>
+    <div class="card-body">
+        <h5 class="card-title">{{recipe.title}}</h5>
+    </div>
+    <img style="height: 200px; width: 100%; display: block;" [src]="recipe.imageUrl" alt="Card image">
+    <h5>Ingredients:</h5>
+    <div class="card-body" *ngFor="let row of recipe.ingredients.split('\n')">
+        <p class="card-text">{{row}}</p>
+    </div>
+    <h5>Directions:</h5>
+    <div class="card-body" *ngFor="let row of recipe.directions.split('\n')">
+        <p class="card-text">{{row}}</p>
+    </div>
+    <div class="card-body" *ngIf="isAdmin||isAuthor">
+        <a routerLink="/recipe/edit/{{recipe.id}}" class="card-link">Edit</a>
+        <a class="card-link" (click)="deleteRecipe(recipe.id)">Delete</a>
+    </div>
+    <div class="card-body" *ngIf="isAuthenticated && isFavorite">
+        <button class="card-link" (click)="removeRecipeFromFavorites(recipe.id)">Remove from favorites</button>
+    </div>
+    <div class="card-body" *ngIf="isAuthenticated && !isFavorite">
+        <button class="card-link" (click)="addRecipeToFavorites(recipe.id)">Add to favorites</button>
+    </div>
+</div>

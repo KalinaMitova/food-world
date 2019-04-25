@@ -4,17 +4,17 @@ import { Routes, RouterModule } from '@angular/router';
 import { DetailsComponent } from './details/details.component';
 import { CreateComponent } from './create/create.component';
 import { EditComponent } from './edit/edit.component';
-import { SingleCategoryResolver } from '../core/resolvers/single-category.resolver';
 import { AuthGuard } from '../core/guards/auth.guard';
 import { UserRecipeComponent } from './user-recipe/user-recipe.component';
-import { RecipeListComponent } from './recipe-list/recipe-list.component';
+
 import { FavoriteComponent } from './favorite/favorite.component';
+import { SingleRecipeResolver } from '../core/resolvers/single-recipe.resolver';
 import { CategoryRecipesComponent } from './category-recipes/category-recipes.component';
 
 const childRoutes: Routes = [
   {
-    path: 'details', component: DetailsComponent,
-    resolve: { category: SingleCategoryResolver },
+    path: 'details/:id', component: DetailsComponent,
+    resolve: { recipe: SingleRecipeResolver },
   },
   {
     path: 'create',
@@ -24,23 +24,22 @@ const childRoutes: Routes = [
   {
     path: 'edit/:id',
     component: EditComponent,
-    resolve: { category: SingleCategoryResolver },
+    resolve: { recipe: SingleRecipeResolver },
     canActivate: [ AuthGuard ]
   },
   {
-    path: 'user/',
+    path: 'user',
     component: UserRecipeComponent,
     canActivate: [ AuthGuard ]
   },
   {
-    path: 'user/favorites',
+    path: 'user/favorite',
     component: FavoriteComponent,
     canActivate: [ AuthGuard ]
   },
   {
     path: ':categoryName',
     component: CategoryRecipesComponent,
-    canActivate: [ AuthGuard ]
   },
 ];
 

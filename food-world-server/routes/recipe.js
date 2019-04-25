@@ -59,7 +59,6 @@ function validateRecipeForm (payload) {
 }
 
 router.post('/create', authCheck, (req, res) => {
-  Recipe.collection.dropIndex({"recipe.likes":1});
   const recipe = req.body
   recipe.creator = req.user._id
 
@@ -90,7 +89,7 @@ router.post('/create', authCheck, (req, res) => {
       })
 })
 
-router.get('/all', authCheck ,(req, res) => {
+router.get('/all',(req, res) => {
   const page = parseInt(req.query.page) || 1
   const search = req.query.search
 
@@ -101,7 +100,7 @@ router.get('/all', authCheck ,(req, res) => {
     })
 })
 
-router.get('/:categoryName', authCheck ,(req, res) => {
+router.get('/:categoryName' ,(req, res) => {
   const page = parseInt(req.query.page) || 1
   const search = req.query.search
   const categoryName = req.params.categoryName
@@ -113,7 +112,7 @@ router.get('/:categoryName', authCheck ,(req, res) => {
     })
 })
 
-router.get('/details/:id', authCheck, (req, res) => {
+router.get('/details/:id', (req, res) => {
   const id = req.params.id
   Recipe.findById(id)
     .then((recipe) => {
@@ -142,9 +141,9 @@ router.get('/details/:id', authCheck, (req, res) => {
 })
 
 router.get('/user', authCheck, (req, res) => {
-  const user = req.user._id
-console.log(user)
-  Recipe.find({'creator': user})
+  const user = req.user.id
+console.log(use)
+  Recipe.find()
     .then((recipes) => {
       console.log(recipes)
       return res.status(200).json(recipes)
@@ -154,7 +153,7 @@ console.log(user)
 router.get('/user/favorites', authCheck, (req, res) => {
   const userId = req.user._id
 
-  User.findById(user)
+  User.findById(userId)
   .populate('favorites')
     .then((user) => {
       return res.status(200).json(user.favorites)
@@ -207,7 +206,7 @@ router.put('/edit/:id', authCheck, (req, res) => {
     })
   }
 
-  if ((recipe.creator.toString() != user && !req.user.roles.includes("Admin"))) {
+  if ((recipe.creator.toString() != req.user._id && !req.user.roles.includes("Admin"))) {
     return res.status(401).json({
       success: false,
       message: 'Unauthorized!'
@@ -234,32 +233,16 @@ router.put('/edit/:id', authCheck, (req, res) => {
   })
 })
 
-
-    router.post('/like/:id', authCheck, (req, res) => {
+    router.post('user/favorite/add/:id', authCheck, (req, res) => {
   const id = req.params.id
-  const username = req.user.username
-  Recipe
-    .findById(id)
-    .then(recipe => {
-      if (!recipe) {
-        const message = 'Recipe not found.'
-        return res.status(200).json({
-          success: false,
-          message: message
-        })
-      }
-
-      let likes = recipe.likes
-      if (!likes.includes(username)) {
-        likes.push(username)
-      }
-      recipe.likes = likes
-      recipe
-        .save()
-        .then((recipe) => {
+  const user = req.user;
+  user.favorites.push(id);
+  user.save()
+  .save()
+        .then((user) => {
           res.status(200).json({
             success: true,
-            message: 'Book liked successfully.',
+            message: 'Recipe added to favorites successfully.',
             data: recipe
           })
         })
@@ -270,45 +253,66 @@ router.put('/edit/:id', authCheck, (req, res) => {
             success: false,
             message: message
           })
-        })
-    })
-    .catch((err) => {
-      console.log(err)
-      const message = 'Something went wrong :('
-      return res.status(200).json({
-        success: false,
-        message: message
-      })
-    })
+        });
+  console.log("HA HA HA HA HA")
+  console.log(user)
+  // Recipe
+  //   .findById(id)
+  //   .then(recipe => {
+  //     if (!recipe) {
+  //       const message = 'Recipe not found.'
+  //       return res.status(200).json({
+  //         success: false,
+  //         message: message
+  //       })
+  //     }
+
+    //   let likes = recipe.likes
+    //   if (!likes.includes(username)) {
+    //     likes.push(username)
+    //   }
+    //   recipe.likes = likes
+    //   recipe
+    //     .save()
+    //     .then((recipe) => {
+    //       res.status(200).json({
+    //         success: true,
+    //         message: 'Recipe added to favorites successfully.',
+    //         data: recipe
+    //       })
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //       const message = 'Something went wrong :('
+    //       return res.status(200).json({
+    //         success: false,
+    //         message: message
+    //       })
+    //     })
+    // })
+    // .catch((err) => {
+    //   console.log(err)
+    //   const message = 'Something went wrong :('
+    //   return res.status(200).json({
+    //     success: false,
+    //     message: message
+    //   })
+    // })
 })
 
-router.post('/unlike/:id', authCheck, (req, res) => {
+router.post('user/favorite/remove/:id', authCheck, (req, res) => {
   const id = req.params.id
-  const username = req.user.username
-  Recipe
-    .findById(id)
-    .then(recipe => {
-      if (!recipe) {
-        let message = 'Recipe not found.'
-        return res.status(200).json({
-          success: false,
-          message: message
-        })
+  const user = req.user
+  if (user.favorites.includes(user.id)) {
+        const index = user.favorites.indexOf(user.id)
+        user.favorites.splice(index, 1)
       }
-
-      let likes = recipe.likes
-      if (likes.includes(username)) {
-        const index = likes.indexOf(username)
-        likes.splice(index, 1)
-      }
-
-      recipe.likes = likes
-      recipe
-        .save()
-        .then((recipe) => {
+  user.save()
+  .save()
+        .then((user) => {
           res.status(200).json({
             success: true,
-            message: 'Recipe unliked successfully.',
+            message: 'Recipe removed from favorites successfully.',
             data: recipe
           })
         })
@@ -319,16 +323,52 @@ router.post('/unlike/:id', authCheck, (req, res) => {
             success: false,
             message: message
           })
-        })
-    })
-    .catch((err) => {
-      console.log(err)
-      const message = 'Something went wrong :('
-      return res.status(200).json({
-        success: false,
-        message: message
-      })
-    })
+        });
+
+  // Recipe
+  //   .findById(id)
+  //   .then(recipe => {
+  //     if (!recipe) {
+  //       let message = 'Recipe not found.'
+  //       return res.status(200).json({
+  //         success: false,
+  //         message: message
+  //       })
+  //     }
+
+  //     let likes = recipe.likes
+  //     if (likes.includes(username)) {
+  //       const index = likes.indexOf(username)
+  //       likes.splice(index, 1)
+  //     }
+
+  //     recipe.likes = likes
+  //     recipe
+  //       .save()
+  //       .then((recipe) => {
+  //         res.status(200).json({
+  //           success: true,
+  //           message: 'Recipe unliked successfully.',
+  //           data: recipe
+  //         })
+  //       })
+  //       .catch((err) => {
+  //         console.log(err)
+  //         const message = 'Something went wrong :('
+  //         return res.status(200).json({
+  //           success: false,
+  //           message: message
+  //         })
+  //       })
+  //   })
+  //   .catch((err) => {
+  //     console.log(err)
+  //     const message = 'Something went wrong :('
+  //     return res.status(200).json({
+  //       success: false,
+  //       message: message
+  //     })
+  //   })
 })
 
 

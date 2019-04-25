@@ -1,7 +1,7 @@
+<button class="btn btn-primary my-2 my-sm-2 button" (click)="backClicked()">Back</button>
 <div class="categories-title">
-    <h2>{{title}}</h2>
+    <h1>{{title}}</h1>
 </div>
-<button class="btn btn-primary my-2 my-sm-0 button" (click)="backClicked()">Back</button>
 <div class="create">
     <button *ngIf="isAdmin" type="button" class="btn btn-warning" routerLink="/category/create">Add Category</button>
     <button *ngIf="isAuthenticated" type="button" class="btn btn-warning" routerLink="/recipe/create">Add
