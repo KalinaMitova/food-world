@@ -150,7 +150,7 @@ console.log(use)
     })
 })
 
-router.get('/user/favorites', authCheck, (req, res) => {
+router.get('/user/favorite', authCheck, (req, res) => {
   const userId = req.user._id
 
   User.findById(userId)
