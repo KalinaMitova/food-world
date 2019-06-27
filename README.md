@@ -1,5 +1,5 @@
 
-Food World-AngularJS App
+Food World - Angular App
 App provides basic functionality to users, based on their authentication and roles.
 Guests (unauthorized users)
 •	can view all recipes by category
